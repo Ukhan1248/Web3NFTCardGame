@@ -4,11 +4,18 @@ import { useNavigate } from "react-router-dom";
 import styles from "../styles";
 import { useGlobalContext } from "../context";
 import { CustomButton, CustomInput, GameLoad, PageHOC } from "../components";
+import { gameRules } from "../assets";
 
 const CreateBattle = () => {
-  const { contract, battleName, setBattleName } = useGlobalContext();
+  const { contract, battleName, setBattleName, gameData } = useGlobalContext();
   const [waitBattle, setWaitBattle] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (gameData?.activeBattle?.battleStatus === 0) {
+      setWaitBattle(true);
+    }
+  }, [gameData]);
 
   const handleClick = async () => {
     if (!battleName || !battleName.trim()) return null;
